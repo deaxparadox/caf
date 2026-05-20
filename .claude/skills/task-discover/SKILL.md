@@ -137,11 +137,46 @@ Once confirmed, write `docs/BRIEF.md`:
 
 ---
 
+## Step 4.5 — Update CLAUDE.md Project-Specific Sections
+
+The brief contains everything needed to fill in the placeholder sections of `CLAUDE.md`. Update these three sections now — do not leave them as "TBD":
+
+**`## Project Overview`** — write a 1–2 sentence product description and the core pipeline diagram:
+```markdown
+## Project Overview
+
+[What the product does and who it's for — one sentence.]
+
+**Core pipeline:**
+```
+[Step 1] → [Step 2] → [Step 3] → [Step 4]
+```
+```
+
+**`## Architecture Non-Negotiables`** — replace the "TBD" placeholder with stack-specific rules derived from the confirmed stack. At minimum:
+- Language + runtime constraints (e.g. async-only, typed, etc.)
+- Framework conventions that must be followed
+- Database rules (migrations, transactions, indexing)
+- Hosting/deployment constraints if known
+
+If the stack is not yet confirmed, leave this section as-is — do not invent rules for an unknown stack.
+
+**`## AI Pipeline Rules`** — if the project uses AI:
+- Add the specific model and provider to the existing generic rules
+- Add any project-specific constraints (e.g. max tokens, response format requirements, cost limits)
+- Keep the generic rules (timeout, graceful degradation, no raw errors to users, log all calls, validate before saving)
+
+If no AI is involved, remove this section entirely — don't leave rules that don't apply.
+
+Do not touch: `## Core Rules`, `## Active Milestone`, `## Docs Structure`, `## When in Doubt` — these are universal.
+
+---
+
 ## Step 5 — Hand Off
 
 Tell the user:
 
-> "Brief is written to `docs/BRIEF.md`. Run `/task-plan` to convert this into milestones and specs."
+> "Brief is written to `docs/BRIEF.md` and CLAUDE.md project sections are populated. Run `/task-plan` to convert this into milestones and specs."
 
 Do not invoke `/task-plan` automatically. The user decides when to proceed.
 
@@ -151,5 +186,6 @@ Do not invoke `/task-plan` automatically. The user decides when to proceed.
 
 A complete `/task-discover` run produces:
 - One confirmed `docs/BRIEF.md`
+- `CLAUDE.md` with all project-specific sections filled in (no "TBD" placeholders)
 - No ambiguities that would force `/task-plan` to stop and ask questions
 - The user knows exactly what comes next

@@ -42,6 +42,7 @@ task-resume
 task-discover
   reads:  conversation (user answers)
   writes: docs/BRIEF.md              ← confirmed input for task-plan
+          CLAUDE.md                  ← fills Project Overview, Architecture Non-Negotiables, AI Pipeline Rules
 
           ↓ BRIEF.md is the handoff to task-plan
 
@@ -148,9 +149,11 @@ Skills are composable — they invoke each other rather than duplicating logic:
 0b. Greenfield project — nothing defined yet
    └─ /task-discover
        ├─ Structured questions (product, flow, stack, AI, constraints)
-       ├─ Clarify gaps
+       ├─ Clarify gaps + research ambiguities
+       ├─ Proactive product observations
        ├─ Summary confirmed → CONFIRMATION GATE
-       └─ docs/BRIEF.md written
+       ├─ docs/BRIEF.md written
+       └─ CLAUDE.md project sections filled (Overview, Architecture, AI Pipeline)
 
           ↓ then proceed to /task-plan
 
