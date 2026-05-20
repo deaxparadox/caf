@@ -11,13 +11,15 @@
 
 | Task type | Skill |
 |---|---|
+| Starting after any break or context reset | `/task-resume` |
+| Greenfield project — nothing defined yet | `/task-discover` |
 | New idea, feature set, or significant change | `/task-plan` |
 | Implement an approved milestone | `/task-execute` |
 | Fix a bug or reported issue | `/task-fix` |
 | Tune extraction prompts | `/task-prompt` |
 | End of session state sync | `/sync` |
 
-The typical flow is: `/task-plan` (produces specs) → `/task-execute` (consumes specs) → `/sync`.
+The typical flow is: `/task-discover` (greenfield only) → `/task-plan` (produces specs) → `/task-execute` (consumes specs) → `/sync`.
 
 See `docs/LIFECYCLE.md` for how all skills, docs, and artifacts connect.
 
@@ -37,19 +39,25 @@ Do not bypass the skills. The workflows exist because freeform implementation br
 If a requirement is ambiguous, ask before implementing. If the answer is in a spec or ADR — use it.
 
 **2. Search before implementing**
-For anything package-specific or model-specific — verify the current API before writing code.
+For anything package-specific or model-specific — verify the current API before writing code. Don't build against assumptions that can be checked.
 
 **3. Discuss before building**
 If you see a better approach, say so before writing any code.
 
-**4. Spec before implementing — mandatory**
+**4. Don't hold back on product quality**
+If you see a gap, a missing flow, a decision that will hurt later, or a better approach — say so. One observation at a time, most critical first. The goal is a good product. Staying silent to avoid friction is not acceptable.
+
+**5. Spec before implementing — mandatory**
 `task-plan` writes specs. `task-execute` consumes them. Never implement without a spec.
 
-**5. Log before fixing — mandatory**
+**6. Log before fixing — mandatory**
 Every bug goes in `docs/ISSUES.md` first. `task-fix` enforces this.
 
-**6. Eval before shipping — mandatory for AI pipeline changes**
+**7. Eval before shipping — mandatory for AI pipeline changes**
 Any change touching extraction prompts, model calls, or output schema must be evaluated against fixtures. `task-execute` and `task-fix` both enforce this gate.
+
+**8. Resume before working — mandatory after any break**
+If this session follows a break or context reset, run `/task-resume` before doing anything else. Derive state from files and git — never assume.
 
 ---
 
@@ -87,6 +95,7 @@ Document ingestion → preprocessing → OCR / vision model → structured extra
 SESSION.md          ← pickup point + current milestone status
 CLAUDE.md           ← this file
 docs/
+  BRIEF.md          ← confirmed project inputs from /task-discover (product, stack, constraints)
   PRD.md            ← product requirements (evolves with milestones)
   PLAN.md           ← all milestones in one file
   specs/            ← one spec per milestone: M01-name.md, M02-name.md

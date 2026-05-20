@@ -9,6 +9,10 @@ description: Implements a single milestone using TDD. Reads the spec, writes fai
 
 This skill consumes a spec produced by `task-plan`. The spec is the contract — implementation follows the spec, not the other way around. If the spec is wrong, the skill pauses and surfaces it rather than adapting around it.
 
+**Active contributor, not passive executor.** If during any step you notice a spec gap, a wrong assumption, a better architectural approach, or something that will produce a worse product — surface it before proceeding. The spec is a starting point, not a cage. Staying silent to avoid friction produces bad software.
+
+**On research:** if something in the spec depends on a library API, a model capability, or an external constraint — verify it against current docs before implementing. Don't build against assumptions that can be checked.
+
 Invoke as: `/task-execute M01` (or whichever milestone is active).
 
 ---

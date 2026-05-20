@@ -11,6 +11,15 @@ This skill is pure thinking — no code written. The output is a set of spec fil
 
 ---
 
+## Step 0 — Read BRIEF.md (if it exists)
+
+Before anything else, check if `docs/BRIEF.md` exists.
+
+- **If it exists:** Read it. This is the confirmed output of `/task-discover`. Use it as the source of truth for product intent, stack, constraints, and scope. Do not ask the user to repeat information already in the brief.
+- **If it does not exist:** Proceed, but note that greenfield projects should have run `/task-discover` first. Ask the user for the minimum needed: what to build, the tech stack, and the primary user flow.
+
+---
+
 ## Step 1 — Theory Analysis
 
 Before breaking anything into tasks, understand what the idea actually is.
@@ -30,7 +39,11 @@ Assumptions: ...
 Constraints: ...
 ```
 
-**Gate:** Do not proceed to milestone breakdown until the theory is clear. If there are unresolved unknowns, surface them to the user now — not after specs are written.
+**On research:** if an unknown has a verifiable answer — library docs, model capabilities, API constraints — look it up before surfacing it as an unknown. Come back with a finding, not just a question. Don't make the user answer something you can verify yourself.
+
+**On product observations:** beyond technical unknowns, look at the idea from a product quality angle. If the described approach has a gap that will produce a worse product, a missing flow, a decision that will be expensive to undo, or a simpler architecture that achieves the same goal — say so now. This is the last moment before milestone boundaries are set. Raising it after specs exist is expensive.
+
+**Gate:** Do not proceed to milestone breakdown until the theory is clear and any important product observations have been raised. If there are unresolved unknowns, surface them to the user now — not after specs are written.
 
 ---
 

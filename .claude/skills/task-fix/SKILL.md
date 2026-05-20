@@ -53,7 +53,7 @@ Add entry to `docs/ISSUES.md`:
 
 ### Step 2 — Write Spec
 
-Write fix spec at `docs/phase1/specs/FIX-XXX-[short-name].md`:
+Write fix spec at `docs/specs/FIX-XXX-[short-name].md`:
 
 ```markdown
 ## ISS-XXX Fix Spec

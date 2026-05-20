@@ -11,6 +11,8 @@ Every session starts with `using-superpowers` checking which skill applies.
 
 | Situation | Skill |
 |---|---|
+| Starting after any break or context reset | `/task-resume` |
+| Greenfield project — nothing defined yet | `/task-discover` |
 | New idea, new feature set | `/task-plan` |
 | Approved milestone ready to build | `/task-execute` |
 | Bug reported or found | `/task-fix` |
@@ -25,8 +27,27 @@ Every session starts with `using-superpowers` checking which skill applies.
 What each skill reads and writes:
 
 ```
+task-resume
+  reads:  SESSION.md
+          CLAUDE.md
+          docs/PLAN.md
+          docs/specs/[active milestone].md
+          docs/BRIEF.md, SCHEMA.md, MODELS.md (if they exist)
+          git log + git status
+  writes: nothing (read-only recovery)
+          → may invoke /sync if unsynced work exists
+
+          ↓ then resumes work from confirmed pickup point
+
+task-discover
+  reads:  conversation (user answers)
+  writes: docs/BRIEF.md              ← confirmed input for task-plan
+
+          ↓ BRIEF.md is the handoff to task-plan
+
 task-plan
-  reads:  codebase (via code-explorer sub-agent)
+  reads:  docs/BRIEF.md              ← if greenfield, always start here
+          codebase (via code-explorer sub-agent)
           docs/PRD.md
   writes: docs/specs/MXX-name.md     ← one per milestone
           docs/PLAN.md               ← new milestones added
@@ -116,7 +137,24 @@ Skills are composable — they invoke each other rather than duplicating logic:
 ## Full Lifecycle — One Piece of Work End to End
 
 ```
-1. Idea arrives
+0a. Session follows a break or context reset
+   └─ /task-resume
+       ├─ Read all state files + git
+       ├─ Reconcile spec vs actual code state
+       ├─ Present reconstructed state → CONFIRMATION GATE
+       ├─ Handle any unsynced work (/sync if needed)
+       └─ Resume from confirmed pickup point
+
+0b. Greenfield project — nothing defined yet
+   └─ /task-discover
+       ├─ Structured questions (product, flow, stack, AI, constraints)
+       ├─ Clarify gaps
+       ├─ Summary confirmed → CONFIRMATION GATE
+       └─ docs/BRIEF.md written
+
+          ↓ then proceed to /task-plan
+
+1. Idea arrives (with BRIEF.md or existing codebase)
    └─ /task-plan
        ├─ Theory analysis (code-explorer sub-agent)
        ├─ Milestone breakdown → APPROVAL GATE
@@ -192,6 +230,7 @@ Two gates exist across all workflows. Nothing proceeds past them without explici
 |---|---|---|---|
 | `SESSION.md` | `sync` | Every session start | Exact pickup point |
 | `CLAUDE.md` | Human | Every session start | Rules + active milestone |
+| `docs/BRIEF.md` | `task-discover` | `task-plan` | Confirmed project inputs — product, stack, constraints |
 | `docs/PRD.md` | `task-plan` | `task-plan` | What to build |
 | `docs/PLAN.md` | `task-plan`, `task-execute`, `sync` | `task-execute`, `sync` | Milestone status |
 | `docs/specs/` | `task-plan` | `task-execute` | Per-milestone contract |

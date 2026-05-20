@@ -19,6 +19,8 @@ This is not negotiable. This is not optional.
 
 | Skill | When to use |
 |---|---|
+| `task-resume` | Start of any session after a break or context reset — always run first |
+| `task-discover` | Greenfield project with nothing defined yet — before task-plan |
 | `task-plan` | New idea, feature set, or significant change — produces specs |
 | `task-execute` | Implement an approved milestone — consumes specs |
 | `task-audit` | Sweep codebase against engineering principles |
@@ -44,3 +46,5 @@ User message → Does any skill apply? → Yes (even 1%) → Invoke Skill tool F
 | "Let me explore the codebase first" | Skills tell you HOW to explore. |
 | "This doesn't need a formal skill" | If a skill exists, use it. |
 | "I remember this skill" | Skills evolve. Read current version. |
+| "I already know the state from the summary" | Summaries lie. task-resume derives state from git. |
+| "We can skip discovery, the idea is clear" | task-discover catches gaps before specs exist. |

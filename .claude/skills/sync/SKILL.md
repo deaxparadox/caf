@@ -40,8 +40,8 @@ Overwrite completely:
 ## Branch
 [current branch]
 
-## Phase 1 Build Order
-[table with current statuses]
+## Milestone Status
+[table: milestone ID | name | status]
 
 ## Running Stack
 [ports and commands]
